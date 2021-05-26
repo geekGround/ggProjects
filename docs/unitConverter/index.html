@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>ConvUni.</title>
+  </head>
+  <body>
+    <h1>ConvUni.</h1>
+    <div class="master-container">
+      <h2>Conversor de Unidades</h2>
+      <div class="dropdown">
+        <button class="dropdown-btn">Escolha a unidade de medida:</button>
+        <div class="dropdown-content">
+          <p id="mass">Massa</p>
+          <p id="volume">Volume</p>
+          <p id="temperature">Temperatura</p>
+          <p id="length">Distância</p>
+          <p id="time">Tempo</p>
+        </div>
+      </div>
+      <div class="conversion-content">
+        <input type="text" />
+        <div class="dropdown">
+          <button class="dropdown-btn">g</button>
+          <div class="dropdown-content">
+            <!-- <p id="grama">g</p>
+            <p id="mili-grama">mg</p>
+            <p id="kilo-grama">kg</p>
+            <p id="tonelada">ton</p> -->
+          </div>
+        </div>
+        <img src="./Images/Arrow 1.png" alt="right-arrow" />
+        <div class="dropdown">
+          <button class="dropdown-btn">kg</button>
+          <div class="dropdown-content">
+            <!-- <p>g</p>
+            <p>mg</p>
+            <p>kg</p>
+            <p>ton</p> -->
+          </div>
+        </div>
+        <button class="conversor-btn">Converter</button>
+      </div>
+      <div class="resul-content">
+        <h3 class="resukt">0</h3>
+        <img src="./Images/color_temperature.png" alt="thermometer" />
+      </div>
+    </div>
+    <img src="./Images/thermometer.png" alt="" />
+    <script src="./script.js"></script>
+  </body>
+</html>
