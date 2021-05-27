@@ -8,11 +8,11 @@
     <title>ConvUni.</title>
   </head>
   <body>
-    <h1>ConvUni.</h1>
+    <h1>ConvUni</h1>
     <div class="master-container">
       <h2>Conversor de Unidades</h2>
       <div class="dropdown">
-        <button class="dropdown-btn">Escolha a unidade de medida:</button>
+        <button class="dropdown-btn" id="units">Escolha a unidade de medida</button>
         <div class="dropdown-content">
           <p id="mass">Massa</p>
           <p id="volume">Volume</p>
@@ -22,9 +22,9 @@
         </div>
       </div>
       <div class="conversion-content">
-        <input type="text" />
+        <input type="text" class="unit-input" placeholder="valor" />
         <div class="dropdown">
-          <button class="dropdown-btn">g</button>
+          <button class="dropdown-btn unit-btn metrics" id="first-metric">g</button>
           <div class="dropdown-content">
             <!-- <p id="grama">g</p>
             <p id="mili-grama">mg</p>
@@ -32,9 +32,9 @@
             <p id="tonelada">ton</p> -->
           </div>
         </div>
-        <img src="img/Arrow 1.png" alt="right-arrow" />
+        <img src="img/Arrow 1.png" class="arrow-img" alt="right-arrow" />
         <div class="dropdown">
-          <button class="dropdown-btn">kg</button>
+          <button class="dropdown-btn unit-btn metrics" id="second-metric">kg</button>
           <div class="dropdown-content">
             <!-- <p>g</p>
             <p>mg</p>
@@ -42,14 +42,14 @@
             <p>ton</p> -->
           </div>
         </div>
-        <button class="conversor-btn">Converter</button>
       </div>
-      <div class="resul-content">
-        <h3 class="resukt">0</h3>
-        <img src="img/color_temperature.png" alt="thermometer" />
+      <button class="conversor-btn">Converter</button>
+      <div class="result-content">
+        <h3 class="result">0</h3>
+        <img class="unit-icon" src="img/color_temperature.png" alt="unit-icon" />
       </div>
     </div>
-    <img src="img/thermometer.png" alt="" />
+    <img class="unit-bg" src="img/thermometer.png" alt="unit-bg" />
     <script src="./script.js"></script>
   </body>
 </html>
