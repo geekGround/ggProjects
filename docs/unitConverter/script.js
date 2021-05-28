@@ -2,11 +2,22 @@ const dropdownBtns = document.querySelectorAll('.dropdown-btn');
 const dropdownContents = document.querySelectorAll('.dropdown-content');
 const units = document.querySelectorAll('.dropdown-content p');
 const unitInput = document.querySelector('.unit-input');
+const conversorBtn = document.querySelector('.conversor-btn');
+const unitIcon = document.querySelector('.unit-icon');
+const unitBg = document.querySelector('.unit-bg');
+//Event Listeners
 
 for (let unit of units) {
   unit.addEventListener('click', () => {
     unit.parentElement.previousElementSibling.innerText = unit.innerText;
     unit.parentElement.classList.remove('active');
+    unit.parentElement.previousElementSibling.id = unit.id;
+
+    unitIcon.src = `./img/icon_${unit.id}.png`;
+    unitBg.src = `./img/bg_${unit.id}.png`;
+    unitIcon.alt = `${unit.id}-icon`;
+    unitBg.alt = `${unit.id}-background`;
+
     addMetrics(unit);
   });
 }
@@ -16,6 +27,8 @@ for (let btn of dropdownBtns) {
     btn.nextElementSibling.classList.toggle('active');
   });
 }
+
+conversorBtn.addEventListener('click', unitConversion);
 
 let myData = {
   mass: {
@@ -58,11 +71,11 @@ let myData = {
   },
   volume: {
     units: ['m3', 'ml', 'l', 'dm3', 'cm3'],
-    m3: 1,
-    ml: 1000000,
-    l: 1000,
-    dm3: 1000,
-    cm3: 1000000,
+    m3: 1000,
+    ml: 0.001,
+    l: 1,
+    dm3: 1,
+    cm3: 0.001,
   },
 };
 
@@ -109,4 +122,19 @@ let finalUnit = myData.temperature.celsius.fahrenheit; //From HTML input
 function converterTemperatura(value) {
   console.log(finalUnit(value));
 }
-converterTemperatura(parseInt(unitInput.value));
+
+function unitConversion(firstMetricText, secondMetricText, value) {
+  firstMetricText = document.querySelector('#first-metric').innerText;
+  secondMetricText = document.querySelector('#second-metric').innerText;
+  value = parseInt(unitInput.value);
+  const firstDropDownBtn = document.querySelector('.dropdown-btn');
+  const result = document.querySelector('.result');
+  const dropDownId = firstDropDownBtn.id;
+  const metrics = Array.from(document.querySelectorAll('.metrics'));
+  const firstMetricData = myData[dropDownId][firstMetricText];
+  const secondMetricData = myData[dropDownId][secondMetricText];
+
+  if (dropDownId !== 'temperature') {
+    result.innerText = `${value * (firstMetricData / secondMetricData)} ${secondMetricText}`;
+  }
+}
