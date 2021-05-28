@@ -1,13 +1,13 @@
 const dropdownBtns = document.querySelectorAll('.dropdown-btn');
 const dropdownContents = document.querySelectorAll('.dropdown-content');
 const units = document.querySelectorAll('.dropdown-content p');
+const unitInput = document.querySelector('.unit-input');
 
 for (let unit of units) {
   unit.addEventListener('click', () => {
     unit.parentElement.previousElementSibling.innerText = unit.innerText;
     unit.parentElement.classList.remove('active');
-    let unitID = unit.id;
-    //Create Units
+    addMetrics(unit);
   });
 }
 
@@ -26,7 +26,7 @@ let myData = {
     ton: 1000000, //1ton = 1000000g
   },
   temperature: {
-    units: ['celsius', 'fahrenheit', 'kelvin'],
+    units: ['°C', '°F', 'K'],
     celsius: {
       fahrenheit: (valor) => valor * 1.8 + 32,
       kelvin: (valor) => valor + 273.15,
@@ -65,11 +65,43 @@ let myData = {
     cm3: 1000000,
   },
 };
+
+function addMetrics(unitValue) {
+  const metrics = Array.from(document.querySelectorAll('.metrics'));
+  let unitID = unitValue.id;
+  let metricsData = myData[unitID].units;
+  // 1. Remove everything inside the metricsContent
+  metrics.forEach((metric) => {
+    while (metric.firstChild) {
+      metric.removeChild(metric.firstChild);
+    }
+
+    //Adding the first metric inside the metric btn
+    metric.previousElementSibling.innerText = metricsData[0];
+
+    // 2. Add the metrics related to the unit in the content
+    metricsData.forEach((metricData) => {
+      let newParagraph = document.createElement('p');
+      newParagraph.innerText = metricData;
+      metric.appendChild(newParagraph);
+    });
+
+    let paragraphs = Array.from(metric.querySelectorAll('p'));
+
+    paragraphs.forEach((p) => {
+      p.addEventListener('click', () => {
+        metric.previousElementSibling.innerText = p.innerText;
+        metric.classList.remove('active');
+      });
+    });
+  });
+}
+
 //Input: value
 //Input:
 //initialUnit-> Select[ton,kg,g,mg] to finalUnit-> Select[ton,kg,g,mg]
 let initialUnit = myData.temperature.celsius; //From HTML input
-let finalUnit = myData.temperature.kelvin.fahrenheit; //From HTML input
+let finalUnit = myData.temperature.celsius.fahrenheit; //From HTML input
 // function converter(value) {
 //   console.log(value * (initialUnit / finalUnit));
 // }
@@ -77,5 +109,4 @@ let finalUnit = myData.temperature.kelvin.fahrenheit; //From HTML input
 function converterTemperatura(value) {
   console.log(finalUnit(value));
 }
-converterTemperatura(283.15);
-// 500g*(1g/1g)*(1kg/1000g) = 0.5kg
+converterTemperatura(parseInt(unitInput.value));
