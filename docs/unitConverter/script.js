@@ -5,30 +5,57 @@ const unitInput = document.querySelector('.unit-input');
 const conversorBtn = document.querySelector('.conversor-btn');
 const unitIcon = document.querySelector('.unit-icon');
 const unitBg = document.querySelector('.unit-bg');
-//Event Listeners
 
-for (let unit of units) {
-  unit.addEventListener('click', () => {
-    unit.parentElement.previousElementSibling.innerText = unit.innerText;
-    unit.parentElement.classList.remove('active');
-    unit.parentElement.previousElementSibling.id = unit.id;
+function unitConversion(firstMetricText, secondMetricText, value) {
+  firstMetricText = document.querySelector('#first-metric').innerText;
+  secondMetricText = document.querySelector('#second-metric').innerText;
+  value = parseInt(unitInput.value);
+  const firstDropDownBtn = document.querySelector('.dropdown-btn');
+  const result = document.querySelector('.result');
+  const dropDownId = firstDropDownBtn.id;
+  const metrics = Array.from(document.querySelectorAll('.metrics'));
+  const firstMetricData = myData[dropDownId][firstMetricText];
+  const secondMetricData = myData[dropDownId][secondMetricText];
 
-    unitIcon.src = `./img/icon_${unit.id}.png`;
-    unitBg.src = `./img/bg_${unit.id}.png`;
-    unitIcon.alt = `${unit.id}-icon`;
-    unitBg.alt = `${unit.id}-background`;
-
-    addMetrics(unit);
-  });
+  if (dropDownId !== 'temperature') {
+    result.innerText = `${value * (firstMetricData / secondMetricData)} ${secondMetricText}`;
+  } else {
+    const convertTemperature =
+      myData[dropDownId][firstMetricText.toLowerCase()][secondMetricText.toLowerCase()];
+    result.innerText = `${convertTemperature(value)} ${secondMetricText}`;
+  }
 }
 
-for (let btn of dropdownBtns) {
-  btn.addEventListener('click', () => {
-    btn.nextElementSibling.classList.toggle('active');
+function addMetrics(unitValue) {
+  const metrics = Array.from(document.querySelectorAll('.metrics'));
+  let unitID = unitValue.id;
+  let metricsData = myData[unitID].units;
+  // 1. Remove everything inside the metricsContent
+  metrics.forEach((metric) => {
+    while (metric.firstChild) {
+      metric.removeChild(metric.firstChild);
+    }
+
+    //Adding the first metric inside the metric btn
+    metric.previousElementSibling.innerText = metricsData[0];
+
+    // 2. Add the metrics related to the unit in the content
+    metricsData.forEach((metricData) => {
+      let newParagraph = document.createElement('p');
+      newParagraph.innerText = metricData;
+      metric.appendChild(newParagraph);
+    });
+
+    let paragraphs = Array.from(metric.querySelectorAll('p'));
+
+    paragraphs.forEach((p) => {
+      p.addEventListener('click', () => {
+        metric.previousElementSibling.innerText = p.innerText;
+        metric.classList.remove('active');
+      });
+    });
   });
 }
-
-conversorBtn.addEventListener('click', unitConversion);
 
 let myData = {
   mass: {
@@ -39,7 +66,7 @@ let myData = {
     ton: 1000000, //1ton = 1000000g
   },
   temperature: {
-    units: ['°C', '°F', 'K'],
+    units: ['Celsius', 'Fahrenheit', 'Kelvin'],
     celsius: {
       fahrenheit: (valor) => valor * 1.8 + 32,
       kelvin: (valor) => valor + 273.15,
@@ -79,37 +106,6 @@ let myData = {
   },
 };
 
-function addMetrics(unitValue) {
-  const metrics = Array.from(document.querySelectorAll('.metrics'));
-  let unitID = unitValue.id;
-  let metricsData = myData[unitID].units;
-  // 1. Remove everything inside the metricsContent
-  metrics.forEach((metric) => {
-    while (metric.firstChild) {
-      metric.removeChild(metric.firstChild);
-    }
-
-    //Adding the first metric inside the metric btn
-    metric.previousElementSibling.innerText = metricsData[0];
-
-    // 2. Add the metrics related to the unit in the content
-    metricsData.forEach((metricData) => {
-      let newParagraph = document.createElement('p');
-      newParagraph.innerText = metricData;
-      metric.appendChild(newParagraph);
-    });
-
-    let paragraphs = Array.from(metric.querySelectorAll('p'));
-
-    paragraphs.forEach((p) => {
-      p.addEventListener('click', () => {
-        metric.previousElementSibling.innerText = p.innerText;
-        metric.classList.remove('active');
-      });
-    });
-  });
-}
-
 //Input: value
 //Input:
 //initialUnit-> Select[ton,kg,g,mg] to finalUnit-> Select[ton,kg,g,mg]
@@ -123,18 +119,27 @@ function converterTemperatura(value) {
   console.log(finalUnit(value));
 }
 
-function unitConversion(firstMetricText, secondMetricText, value) {
-  firstMetricText = document.querySelector('#first-metric').innerText;
-  secondMetricText = document.querySelector('#second-metric').innerText;
-  value = parseInt(unitInput.value);
-  const firstDropDownBtn = document.querySelector('.dropdown-btn');
-  const result = document.querySelector('.result');
-  const dropDownId = firstDropDownBtn.id;
-  const metrics = Array.from(document.querySelectorAll('.metrics'));
-  const firstMetricData = myData[dropDownId][firstMetricText];
-  const secondMetricData = myData[dropDownId][secondMetricText];
+//Event Listeners
 
-  if (dropDownId !== 'temperature') {
-    result.innerText = `${value * (firstMetricData / secondMetricData)} ${secondMetricText}`;
-  }
+for (let unit of units) {
+  unit.addEventListener('click', () => {
+    unit.parentElement.previousElementSibling.innerText = unit.innerText;
+    unit.parentElement.classList.remove('active');
+    unit.parentElement.previousElementSibling.id = unit.id;
+
+    unitIcon.src = `./img/icon_${unit.id}.png`;
+    unitBg.src = `./img/bg_${unit.id}.png`;
+    unitIcon.alt = `${unit.id}-icon`;
+    unitBg.alt = `${unit.id}-background`;
+
+    addMetrics(unit);
+  });
 }
+
+for (let btn of dropdownBtns) {
+  btn.addEventListener('click', () => {
+    btn.nextElementSibling.classList.toggle('active');
+  });
+}
+
+conversorBtn.addEventListener('click', unitConversion);
