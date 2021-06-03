@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>ConvUni.</title>
+  </head>
+  <body>
+    <h1>ConvUni</h1>
+    <div class="master-container">
+      <h2>Conversor de Unidades</h2>
+      <div class="dropdown">
+        <button class="dropdown-btn" id="unidades-de-medida-btn">
+          Escolha a unidade de medida
+        </button>
+        <div class="dropdown-content" id="unidades-de-medida-dropdown">
+          <p id="massa">Massa</p>
+          <p id="volume">Volume</p>
+          <p id="temperatura">Temperatura</p>
+          <p id="comprimento">Comprimento</p>
+          <p id="tempo">Tempo</p>
+        </div>
+      </div>
+      <div class="conversion-content">
+        <input type="text" class="unit-input" placeholder="valor" />
+        <div class="dropdown">
+          <button class="dropdown-btn unit-btn" id="first-metric"></button>
+          <div class="dropdown-content metrics" id="metric-1"></div>
+        </div>
+        <img src="img/Arrow 1.png" class="arrow-img" alt="right-arrow" />
+        <div class="dropdown">
+          <button class="dropdown-btn unit-btn" id="second-metric"></button>
+          <div class="dropdown-content metrics" id="metric-2"></div>
+        </div>
+      </div>
+      <button class="conversor-btn">Converter</button>
+      <div class="result-content">
+        <h3 class="result"></h3>
+        <img class="unit-icon" />
+      </div>
+    </div>
+    <img class="unit-bg" />
+    <script src="./scriptPt.js"></script>
+  </body>
+</html>

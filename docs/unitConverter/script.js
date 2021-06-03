@@ -1,5 +1,5 @@
+//Selecionando os elementos do DOM que iremos utilizar em escopo Global.
 const dropdownBtns = document.querySelectorAll('.dropdown-btn');
-const dropdownContents = document.querySelectorAll('.dropdown-content');
 const units = document.querySelectorAll('.dropdown-content p');
 const unitInput = document.querySelector('.unit-input');
 const conversorBtn = document.querySelector('.conversor-btn');
@@ -13,23 +13,24 @@ function unitConversion(firstMetricText, secondMetricText, value) {
   const firstDropDownBtn = document.querySelector('.dropdown-btn');
   const result = document.querySelector('.result');
   const dropDownId = firstDropDownBtn.id;
-  const metrics = Array.from(document.querySelectorAll('.metrics'));
   const firstMetricData = myData[dropDownId][firstMetricText];
   const secondMetricData = myData[dropDownId][secondMetricText];
 
   if (dropDownId !== 'temperature') {
-    result.innerText = `${value * (firstMetricData / secondMetricData)} ${secondMetricText}`;
+    const otherUnitsConversionCalcule = value * (firstMetricData / secondMetricData);
+    result.innerText = `${otherUnitsConversionCalcule} ${secondMetricText}`;
   } else {
-    const convertTemperature =
+    const conversionTemperatureCalcule =
       myData[dropDownId][firstMetricText.toLowerCase()][secondMetricText.toLowerCase()];
-    result.innerText = `${convertTemperature(value)} ${secondMetricText}`;
+    result.innerText = `${conversionTemperatureCalcule(value)} ${secondMetricText}`;
   }
 }
 
 function addMetrics(unitValue) {
   const metrics = Array.from(document.querySelectorAll('.metrics'));
-  let unitID = unitValue.id;
-  let metricsData = myData[unitID].units;
+  let metricsData = myData[unitValue.id].units;
+  //getting all of the paragraphs inside an array
+  let paragraphs = Array.from(metric.querySelectorAll('p'));
   // 1. Remove everything inside the metricsContent
   metrics.forEach((metric) => {
     while (metric.firstChild) {
@@ -37,7 +38,9 @@ function addMetrics(unitValue) {
     }
 
     //Adding the first metric inside the metric btn
-    metric.previousElementSibling.innerText = metricsData[0];
+    const metricBtn = metric.previousElementSibling;
+    const firstData = metricsData[0];
+    metricBtn.innerText = firstData;
 
     // 2. Add the metrics related to the unit in the content
     metricsData.forEach((metricData) => {
@@ -45,8 +48,6 @@ function addMetrics(unitValue) {
       newParagraph.innerText = metricData;
       metric.appendChild(newParagraph);
     });
-
-    let paragraphs = Array.from(metric.querySelectorAll('p'));
 
     paragraphs.forEach((p) => {
       p.addEventListener('click', () => {
@@ -56,6 +57,8 @@ function addMetrics(unitValue) {
     });
   });
 }
+
+//*** Unit Conversion - DATA ***//
 
 let myData = {
   mass: {
@@ -106,20 +109,7 @@ let myData = {
   },
 };
 
-//Input: value
-//Input:
-//initialUnit-> Select[ton,kg,g,mg] to finalUnit-> Select[ton,kg,g,mg]
-let initialUnit = myData.temperature.celsius; //From HTML input
-let finalUnit = myData.temperature.celsius.fahrenheit; //From HTML input
-// function converter(value) {
-//   console.log(value * (initialUnit / finalUnit));
-// }
-
-function converterTemperatura(value) {
-  console.log(finalUnit(value));
-}
-
-//Event Listeners
+// *** Event Listeners *** //
 
 for (let unit of units) {
   unit.addEventListener('click', () => {
